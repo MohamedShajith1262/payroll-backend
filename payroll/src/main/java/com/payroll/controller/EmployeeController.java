@@ -1,0 +1,35 @@
+package com.payroll.controller;
+
+import com.payroll.dto.EmployeeRequest;
+import com.payroll.dto.EmployeeResponse;
+import com.payroll.service.EmployeeService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/employees")
+@RequiredArgsConstructor
+public class EmployeeController {
+
+    private final EmployeeService employeeService;
+
+    @PostMapping
+    public ResponseEntity<EmployeeResponse> create(@Valid @RequestBody EmployeeRequest request) {
+        EmployeeResponse created = employeeService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @GetMapping
+    public List<EmployeeResponse> getAll() {
+        return employeeService.getAll();
+    }
+}
